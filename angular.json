@@ -28,13 +28,16 @@
             "inlineStyleLanguage": "less",
             "assets": [
               "projects/blog/src/favicon.ico",
-              "projects/blog/src/assets"
+              "projects/blog/src/assets",
+              "projects/blog/src/manifest.webmanifest"
             ],
             "styles": [
               "projects/blog/src/custom-theme.scss",
               "projects/blog/src/styles.less"
             ],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "projects/blog/ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -97,7 +100,8 @@
             "inlineStyleLanguage": "less",
             "assets": [
               "projects/blog/src/favicon.ico",
-              "projects/blog/src/assets"
+              "projects/blog/src/assets",
+              "projects/blog/src/manifest.webmanifest"
             ],
             "styles": [
               "projects/blog/src/styles.less"
