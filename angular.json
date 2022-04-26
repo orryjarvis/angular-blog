@@ -151,9 +151,21 @@
             }
           },
           "defaultConfiguration": "production"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/blog/**/*.ts",
+              "projects/blog/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "blog"
+  "defaultProject": "blog",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
