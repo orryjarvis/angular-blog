@@ -8,17 +8,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-function bootstrap() {
-  platformBrowserDynamic().bootstrapModule(AppModule, {
+platformBrowserDynamic().bootstrapModule(AppModule, {
   defaultEncapsulation: ViewEncapsulation.ShadowDom
 })
   .catch(err => console.error(err));
-};
-
-
-if (document.readyState === 'complete') {
-  bootstrap();
-} else {
-  document.addEventListener('DOMContentLoaded', bootstrap);
-}
-
