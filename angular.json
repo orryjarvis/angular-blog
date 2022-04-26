@@ -31,6 +31,7 @@
               "projects/blog/src/assets"
             ],
             "styles": [
+              "projects/blog/src/custom-theme.scss",
               "projects/blog/src/styles.less"
             ],
             "scripts": []
