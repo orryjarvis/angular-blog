@@ -1,0 +1,4 @@
+<ng-container *ngIf="post$ | async as post; else loading">
+  <div markdown [src]="post"></div>
+</ng-container>
+<ng-template #loading>Loading post</ng-template>

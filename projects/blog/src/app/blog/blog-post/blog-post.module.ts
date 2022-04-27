@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BlogRoutingModule } from './blog-routing.module';
-import { BlogComponent } from './blog.component';
+import { BlogPostRoutingModule } from './blog-post-routing.module';
+import { BlogPostComponent } from './blog-post.component';
 import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
   declarations: [
-    BlogComponent
+    BlogPostComponent
   ],
   imports: [
     CommonModule,
-    BlogRoutingModule,
+    BlogPostRoutingModule,
     MarkdownModule.forChild()
   ]
 })
-export class BlogModule { }
+export class BlogPostModule { }
