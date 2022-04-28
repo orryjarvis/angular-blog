@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
 
 @Component({
-  selector: 'blog-blog-post',
+  selector: 'blog-post',
   templateUrl: './blog-post.component.html',
   styleUrls: ['./blog-post.component.scss']
 })

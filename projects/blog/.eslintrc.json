@@ -20,7 +20,6 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "blog",
             "style": "camelCase"
           }
         ],
@@ -28,7 +27,6 @@
           "error",
           {
             "type": "element",
-            "prefix": "blog",
             "style": "kebab-case"
           }
         ]

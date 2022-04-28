@@ -15,7 +15,6 @@
       },
       "root": "projects/blog",
       "sourceRoot": "projects/blog/src",
-      "prefix": "blog",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
