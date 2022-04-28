@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MarkdownModule } from 'ngx-markdown';
 import { GlobalErrorHandler } from './global-error-handler';
@@ -20,7 +22,9 @@ import { GlobalHttpInterceptor } from './global-http-interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     MarkdownModule.forRoot({ loader: HttpClient }),
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },

@@ -1,6 +1,17 @@
-<h1>{{title}}</h1>
+<header>
+  <mat-toolbar color="primary" role="toolbar" attr.aria-labelledby="toolbar-header">
+    <mat-toolbar-row class="centered-row">
+      <h1 id="toolbar-header">{{title}}</h1>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="centered-row">
+      <nav>
+        <a mat-button routerLink="/home">Home</a>
+        <a mat-button routerLink="/blog">Blog</a>
+      </nav>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</header>
 
-<button type="button" routerLink="/home">Home</button>
-<button type="button" routerLink="/blog">Blog</button>
-
-<router-outlet></router-outlet>
+<main>
+  <router-outlet></router-outlet>
+</main>
