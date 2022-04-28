@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "scss"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -25,14 +25,14 @@
             "main": "projects/blog/src/main.ts",
             "polyfills": "projects/blog/src/polyfills.ts",
             "tsConfig": "projects/blog/tsconfig.app.json",
-            "inlineStyleLanguage": "less",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/blog/src/favicon.ico",
               "projects/blog/src/assets"
             ],
             "styles": [
               "projects/blog/src/custom-theme.scss",
-              "projects/blog/src/styles.less"
+              "projects/blog/src/styles.scss"
             ],
             "scripts": []
           },
@@ -94,13 +94,13 @@
             "polyfills": "projects/blog/src/polyfills.ts",
             "tsConfig": "projects/blog/tsconfig.spec.json",
             "karmaConfig": "projects/blog/karma.conf.js",
-            "inlineStyleLanguage": "less",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/blog/src/favicon.ico",
               "projects/blog/src/assets"
             ],
             "styles": [
-              "projects/blog/src/styles.less"
+              "projects/blog/src/styles.scss"
             ],
             "scripts": []
           }
@@ -120,7 +120,7 @@
             "outputPath": "dist/blog/server",
             "main": "projects/blog/server.ts",
             "tsConfig": "projects/blog/tsconfig.server.json",
-            "inlineStyleLanguage": "less"
+            "inlineStyleLanguage": "scss"
           },
           "configurations": {
             "production": {

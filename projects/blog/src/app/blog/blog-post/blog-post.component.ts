@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 @Component({
   selector: 'blog-blog-post',
   templateUrl: './blog-post.component.html',
-  styleUrls: ['./blog-post.component.less']
+  styleUrls: ['./blog-post.component.scss']
 })
 export class BlogPostComponent implements OnInit {
   public post$: Observable<string>;
