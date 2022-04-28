@@ -100,6 +100,7 @@
               "projects/blog/src/assets"
             ],
             "styles": [
+              "projects/blog/src/custom-theme.scss",
               "projects/blog/src/styles.scss"
             ],
             "scripts": []
