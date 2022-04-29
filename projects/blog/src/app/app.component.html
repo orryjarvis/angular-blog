@@ -1,5 +1,5 @@
 <header>
-  <mat-toolbar color="primary" role="toolbar" attr.aria-labelledby="toolbar-header">
+  <mat-toolbar role="toolbar" attr.aria-labelledby="toolbar-header">
     <mat-toolbar-row class="centered-row">
       <h1 id="toolbar-header">{{title}}</h1>
     </mat-toolbar-row>
@@ -8,6 +8,7 @@
         <a mat-button routerLink="/blog">Blog</a>
         <a mat-button routerLink="/about">About</a>
       </nav>
+      <mat-slide-toggle (change)="onThemeChange($event)" [checked]="true">Dark Theme!</mat-slide-toggle>
     </mat-toolbar-row>
   </mat-toolbar>
 </header>
