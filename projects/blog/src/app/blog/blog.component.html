@@ -1,5 +1,22 @@
-<section>
-  <img src="./assets/img/atom.svg" height="50px" />
-  <h2><a routerLink="/blog/post/first-post">First post</a></h2>
-  <time>{{date.toLocaleDateString()}}</time>
-</section>
+<mat-nav-list class="layout">
+  <section mat-list-item *ngFor="let blog of blogs" class="section" routerLink="/blog/post/{{blog.title}}">
+    <div class="column">
+      <img src="./assets/img/{{blog.image}}" height="150px" />
+    </div>
+    <div class="column">
+      <h1>{{blog.title}}</h1>
+      <p>Consequat clita sadipscing invidunt sit tempor autem ipsum ut accusam autem in sit amet accusam eirmod. Elitr
+        duis
+        dolore iriure elit aliquyam et sea eirmod dolores sea sit odio stet consetetur sed molestie ipsum. Tincidunt
+        nonumy
+        et sea labore amet sit no dolore sanctus ea sadipscing iriure stet. Tempor tempor ut augue et dolore stet no.
+        Sea
+        diam takimata amet no. Stet nulla elitr dolor consectetuer. Voluptua facilisi amet sadipscing ut. Consetetur
+        lorem
+        dolores eos ipsum consectetuer et in facilisi mazim consequat dolore dolore veniam no justo minim consetetur
+        mazim.
+        Lorem illum dolor ut labore sit amet dolore te enim stet ut qui duis justo ut. Diam sadipscing sadipscing.</p>
+      <time>{{blog.date.toLocaleDateString()}}</time>
+    </div>
+  </section>
+</mat-nav-list>

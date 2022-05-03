@@ -1,0 +1,23 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 36px;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  border-radius: 8px;
+}
+
+.section:hover {
+  cursor: pointer;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}

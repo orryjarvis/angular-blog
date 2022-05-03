@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogComponent } from './blog.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { MarkdownModule } from 'ngx-markdown';
   imports: [
     CommonModule,
     BlogRoutingModule,
-    MarkdownModule.forChild()
+    MarkdownModule.forChild(),
+    MatListModule
   ]
 })
 export class BlogModule { }
