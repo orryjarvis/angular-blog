@@ -1,7 +1,7 @@
 <mat-nav-list class="layout">
   <section mat-list-item *ngFor="let blog of blogs" class="section" routerLink="/blog/post/{{blog.title}}">
     <div class="column">
-      <img src="./assets/img/{{blog.image}}" height="150px" />
+      <img src="./assets/img/{{blog.image}}" class="img" />
     </div>
     <div class="column">
       <h1>{{blog.title}}</h1>

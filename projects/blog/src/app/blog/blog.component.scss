@@ -19,7 +19,7 @@
 .column {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .excerpt {
@@ -28,4 +28,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.img {
+  height: 100px;
 }
