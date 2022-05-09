@@ -3,17 +3,19 @@
   flex-direction: column;
   gap: 24px;
   padding: 36px;
+  max-width: 75vw;
+  margin: auto;
 }
 
 .section {
   display: flex;
   flex-direction: row;
   gap: 16px;
-  border-radius: 8px;
-}
 
-.section:hover {
-  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
 .column {

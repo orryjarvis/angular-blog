@@ -5,14 +5,22 @@
   // Get the color config from the theme.
   $color-config: mat.get-color-config($theme);
 
-  // Get the background color palette from the color-config.
-  $background-palette: map.get($color-config, accent);
+  $primary-palette: map.get($color-config, primary);
+  $accent-palette: map.get($color-config, accent);
+  $background-palette: map.get($color-config, background);
 
-  .section:hover {
-    // Read the 900 hue from the background color palette.
-    background-color: mat.get-color-from-palette($background-palette, 500);
-    color: mat.get-color-from-palette($background-palette, 500-contrast);
-  }
+  // TODO: Unused
+  // .section:hover {
+  //   background-color: mat.get-color-from-palette($primary-palette, default);
+  //   border-color: mat.get-color-from-palette($accent-palette, default);
+  //   color: mat.get-color-from-palette($primary-palette, darker-contrast);
+  // }
+
+  // .section {
+  //   background-color: mat.get-color-from-palette($primary-palette, default);
+  //   border-color: mat.get-color-from-palette($primary-palette, default);
+  //   color: mat.get-color-from-palette($primary-palette, darker-contrast);
+  // }
 }
 
 @mixin theme($theme) {

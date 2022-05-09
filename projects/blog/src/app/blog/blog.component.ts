@@ -35,6 +35,26 @@ export class BlogComponent {
         image: "atom.svg",
         title: "first-post",
         date: new Date()
+      },
+      {
+        image: "atom.svg",
+        title: "first-post",
+        date: new Date()
+      },
+      {
+        image: "atom.svg",
+        title: "first-post",
+        date: new Date()
+      },
+      {
+        image: "atom.svg",
+        title: "first-post",
+        date: new Date()
+      },
+      {
+        image: "atom.svg",
+        title: "first-post",
+        date: new Date()
       }
     ];
   }

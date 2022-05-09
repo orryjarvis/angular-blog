@@ -5,8 +5,8 @@
     </mat-toolbar-row>
     <mat-toolbar-row class="centered-row">
       <nav>
-        <a mat-button color="accent" routerLink="/blog">Blog</a>
-        <a mat-button color="accent" routerLink="/about">About</a>
+        <a mat-button routerLink="/blog">Blog</a>
+        <a mat-button routerLink="/about">About</a>
       </nav>
       <mat-slide-toggle (change)="onThemeChange($event)" [checked]="isDarkMode">
         {{slideToggleLabel}}
