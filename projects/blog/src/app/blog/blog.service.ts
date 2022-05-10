@@ -19,6 +19,7 @@ declare module 'vfile' {
 export interface Blog {
   html: string;
   title: string;
+  fileName: string;
   date: Date;
   image: string;
 }
@@ -30,18 +31,19 @@ export class BlogService {
 
   constructor(private httpClient: HttpClient, private markdownService: MarkdownService) { }
 
-  fetch(title: string): Observable<Blog> {
+  fetch(fileName: string): Observable<Blog> {
     return this.httpClient
-      .get(getBlogUrl(title), { responseType: 'text' })
+      .get(getBlogUrl(fileName), { responseType: 'text' })
       .pipe(
         mergeMap(markdown => defer(() => from(this.markdownService.transformMarkdown(markdown)))),
-        map(file => this.parseBlogMetadata(file))
+        map(file => this.parseBlogMetadata(file, fileName))
       );
   }
 
-  private parseBlogMetadata(file: VFile): Blog {
+  private parseBlogMetadata(file: VFile, fileName: string): Blog {
     return {
       html: file.toString(),
+      fileName,
       title: file.data.matter?.title ?? 'Title',
       date: file.data.matter?.date ? new Date(Date.parse(file.data.matter.date)) : new Date(),
       image: file.data.matter?.image ?? 'atom.svg'
