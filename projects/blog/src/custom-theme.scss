@@ -50,7 +50,7 @@ $light-theme: mat.define-light-theme((color: (primary: $light-primary,
 @include elevation($dark-theme);
 
 .light-theme {
-  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-colors($light-theme);
   @include blog.theme($light-theme);
   @include elevation($light-theme);
 }

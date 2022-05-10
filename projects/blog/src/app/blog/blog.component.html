@@ -3,7 +3,7 @@
   <ng-container *ngIf="blogs$ | async as blogs;">
     <section mat-list-item *ngFor="let blog of blogs" class="section" routerLink="/blog/post/{{blog.fileName}}">
       <div class="column">
-        <img src="./assets/img/{{blog.image}}" class="img" />
+        <img src="/assets/img/{{blog.image}}" class="img" />
       </div>
       <div class="column">
         <h1>{{blog.title}}</h1>

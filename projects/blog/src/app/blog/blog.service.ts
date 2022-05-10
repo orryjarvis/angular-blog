@@ -4,7 +4,7 @@ import { defer, from, map, mergeMap, Observable } from 'rxjs';
 import { VFile } from 'vfile';
 import { MarkdownService } from '../markdown/markdown.service';
 
-const getBlogUrl = (title: string) => `./assets/blog/post/${title}.md`;
+const getBlogUrl = (title: string) => `/assets/blog/post/${title}.md`;
 
 declare module 'vfile' {
   interface VFileDataMap {

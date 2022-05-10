@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, } from '@angular/common';
+import { Injectable, Inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
 
+  constructor(@Inject(DOCUMENT) private document: Document) {
+  }
+
   enableDarkMode(): void {
-    document.body.classList.remove('light-theme');
+    this.document.body.classList.remove('light-theme');
   }
 
   enableLightMode(): void {
-    document.body.classList.add('light-theme');
+    this.document.body.classList.add('light-theme');
   }
 
   isDarkMode(): boolean {
-    return !document.body.classList.contains('light-theme');
+    return !this.document.body.classList.contains('light-theme');
   }
 }
