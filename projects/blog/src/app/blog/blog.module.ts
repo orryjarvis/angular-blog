@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { BlogRoutingModule } from './blog-routing.module';
 import { BlogComponent } from './blog.component';
-import { MarkdownModule } from 'ngx-markdown';
 import { MatListModule } from '@angular/material/list';
 
 
@@ -14,7 +13,6 @@ import { MatListModule } from '@angular/material/list';
   imports: [
     CommonModule,
     BlogRoutingModule,
-    MarkdownModule.forChild(),
     MatListModule
   ]
 })

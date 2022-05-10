@@ -1,6 +1,8 @@
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { catchError, mergeMap, Observable, throwError } from 'rxjs';
+import { Blog, BlogService } from '../blog.service';
 
 @Component({
   selector: 'blog-post',
@@ -8,13 +10,19 @@ import { map, Observable } from 'rxjs';
   styleUrls: ['./blog-post.component.scss']
 })
 export class BlogPostComponent implements OnInit {
-  public post$: Observable<string>;
+  public blog$: Observable<Blog>;
 
-  constructor(private route: ActivatedRoute) {
-    this.post$ = new Observable<string>();
+  constructor(private router: Router, private route: ActivatedRoute, private blogService: BlogService) {
+    this.blog$ = new Observable<Blog>();
   }
 
   ngOnInit(): void {
-    this.post$ = this.route.params.pipe(map(params => `./assets/blog/post/${params['id']}.md`));
+    this.blog$ = this.route.params.pipe(mergeMap(params => this.blogService.fetch(params['id'])),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === HttpStatusCode.NotFound) {
+          this.router.navigateByUrl('404');
+        }
+        return throwError(() => error);
+      }));
   }
 }

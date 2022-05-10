@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { BlogPostRoutingModule } from './blog-post-routing.module';
 import { BlogPostComponent } from './blog-post.component';
-import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -13,7 +12,6 @@ import { MarkdownModule } from 'ngx-markdown';
   imports: [
     CommonModule,
     BlogPostRoutingModule,
-    MarkdownModule.forChild()
   ]
 })
 export class BlogPostModule { }

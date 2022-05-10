@@ -1,4 +1,4 @@
-<ng-container *ngIf="post$ | async as post; else loading">
-  <article markdown [src]="post"></article>
+<ng-container *ngIf="blog$ | async as blog; else loading">
+  <article [innerHtml]="blog.html"></article>
 </ng-container>
 <ng-template #loading>Loading post</ng-template>

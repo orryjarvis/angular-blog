@@ -21,8 +21,7 @@ export class GlobalHttpInterceptor implements HttpInterceptor {
           } else {
             errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
           }
-          this.errorHandler.handleError(errorMsg);
-          return throwError(() => new Error(errorMsg));
+          return throwError(() => error);
         })
       );
   }

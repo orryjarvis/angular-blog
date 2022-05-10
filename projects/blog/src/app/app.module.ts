@@ -8,8 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalErrorHandler } from './global-error-handler';
 import { GlobalHttpInterceptor } from './global-http-interceptor';
 
@@ -22,7 +21,6 @@ import { GlobalHttpInterceptor } from './global-http-interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MarkdownModule.forRoot({ loader: HttpClient }),
     MatSnackBarModule,
     MatToolbarModule,
     MatButtonModule,

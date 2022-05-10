@@ -29,9 +29,16 @@
     "@angular/router": "~13.3.0",
     "@nguniversal/express-engine": "^13.1.0",
     "express": "^4.15.2",
-    "ngx-markdown": "^13.1.0",
+    "rehype-sanitize": "^5.0.1",
+    "rehype-stringify": "^9.0.3",
+    "remark-frontmatter": "^4.0.1",
+    "remark-gfm": "^3.0.1",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "unified": "^10.1.2",
+    "vfile-matter": "^3.0.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
