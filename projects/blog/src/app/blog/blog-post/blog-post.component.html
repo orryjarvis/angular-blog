@@ -1,4 +1,16 @@
 <ng-container *ngIf="blog$ | async as blog; else loading">
-  <article [innerHtml]="blog.html"></article>
+  <article class="article">
+    <div class="heading">
+      <img src="./assets/img/{{blog.image}}" class="img" />
+      <h1>{{blog.title}}</h1>
+      <span class="spacer"></span>
+      <time>{{blog.date.toLocaleDateString()}}</time>
+    </div>
+    <div [innerHtml]="blog.html"></div>
+  </article>
 </ng-container>
-<ng-template #loading>Loading post</ng-template>
+<ng-template #loading>
+  <div class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

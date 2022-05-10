@@ -4,7 +4,7 @@ date: 2020, 1, 29
 img: atom.svg
 ---
 
-# My first post
+## My first post
 
 * one
 * two

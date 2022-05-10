@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BlogPostRoutingModule } from './blog-post-routing.module';
 import { BlogPostComponent } from './blog-post.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { BlogPostComponent } from './blog-post.component';
   imports: [
     CommonModule,
     BlogPostRoutingModule,
+    MatProgressSpinnerModule
   ]
 })
 export class BlogPostModule { }

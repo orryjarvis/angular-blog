@@ -1,0 +1,29 @@
+.article {
+  display: flex;
+  flex-direction: column;
+  padding: 36px;
+  gap: 24px;
+  max-width: 75vw;
+  margin: auto;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.img {
+  height: 100px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

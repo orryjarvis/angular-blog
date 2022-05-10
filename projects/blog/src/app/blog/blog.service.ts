@@ -8,9 +8,11 @@ const getBlogUrl = (title: string) => `./assets/blog/post/${title}.md`;
 
 declare module 'vfile' {
   interface VFileDataMap {
-    title: string;
-    date: string;
-    image: string;
+    matter: {
+      title: string;
+      date: string;
+      image: string;
+    }
   }
 }
 
@@ -40,9 +42,9 @@ export class BlogService {
   private parseBlogMetadata(file: VFile): Blog {
     return {
       html: file.toString(),
-      title: file.data.title ?? 'Title',
-      date: file.data.date ? new Date(Date.parse(file.data.date)) : new Date(),
-      image: file.data.image ?? 'atom.svg'
+      title: file.data.matter?.title ?? 'Title',
+      date: file.data.matter?.date ? new Date(Date.parse(file.data.matter.date)) : new Date(),
+      image: file.data.matter?.image ?? 'atom.svg'
     }
   }
 }
