@@ -1,6 +1,6 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BehaviorSubject, combineLatest, filter, first, mergeMap, Observable, scan } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, combineLatest, debounce, filter, first, interval, mergeMap, Observable, scan, Subscription } from 'rxjs';
 import { Blog, BlogManifest, BlogService } from './blog.service';
 
 @Component({
@@ -8,14 +8,31 @@ import { Blog, BlogManifest, BlogService } from './blog.service';
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.scss']
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
   blogs$: Observable<Blog[]>;
   blogManifest$: BehaviorSubject<BlogManifest | null>;
+  scrollSubscription: Subscription | null;
 
   constructor(private blogService: BlogService) {
     this.blogs$ = new Observable<Blog[]>();
     this.blogManifest$ = new BehaviorSubject<BlogManifest | null>(null);
+    this.scrollSubscription = null;
+  }
+  ngOnDestroy(): void {
+    this.scrollSubscription?.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollSubscription = this.viewport.scrolledIndexChange.pipe(debounce(i => interval(25))).subscribe({
+      next: (i) => {
+        const end = this.viewport.getRenderedRange().end;
+        const total = this.viewport.getDataLength();
+        if (end === total) {
+          this.nextManifest();
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -30,7 +47,6 @@ export class BlogComponent implements OnInit {
         mergeMap(manifest => combineLatest(manifest.posts.map(post => this.blogService.fetch(post.file)))),
         scan((acc, value) => [...acc, ...value])
       );
-    this.nextManifest();
   }
 
   nextManifest(): void {
@@ -46,14 +62,6 @@ export class BlogComponent implements OnInit {
       this.blogService.fetchManifest(prev).pipe(first()).subscribe({
         next: manifest => this.blogManifest$.next(manifest)
       });
-    }
-  }
-
-  onScroll(): void {
-    const end = this.viewport.getRenderedRange().end;
-    const total = this.viewport.getDataLength();
-    if (end === total) {
-      this.nextManifest();
     }
   }
 }

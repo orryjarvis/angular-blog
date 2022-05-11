@@ -1,4 +1,4 @@
-<cdk-virtual-scroll-viewport itemSize="140" class="viewport" (scrolledIndexChange)="onScroll()">
+<cdk-virtual-scroll-viewport itemSize="140" class="viewport">
   <mat-nav-list class="layout">
     <ng-container *cdkVirtualFor="let blog of blogs$ | async">
       <section mat-list-item class="section" routerLink="/blog/post/{{blog.fileName}}">

@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Blog generation
+/projects/blog/src/assets/blog/post/**
+/projects/blog/src/assets/blog/blog-manifest-*.json
+
 # Compiled output
 /dist
 /tmp

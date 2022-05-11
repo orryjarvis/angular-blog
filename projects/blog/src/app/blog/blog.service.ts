@@ -5,7 +5,7 @@ import { VFile } from 'vfile';
 import { MarkdownService } from '../markdown/markdown.service';
 
 const getBlogUrl = (title: string) => `/assets/blog/post/${title}.md`;
-const getBlogManifestUrl = (manifest: string = "blog-manifest") => `/assets/blog/${manifest}.json`;
+const getBlogManifestUrl = (manifest: string = "blog-manifest-0") => `/assets/blog/${manifest}.json`;
 
 declare module 'vfile' {
   interface VFileDataMap {
