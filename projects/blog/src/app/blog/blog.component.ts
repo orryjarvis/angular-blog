@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, first, mergeMap, Observable, scan } from 'rxjs';
 import { Blog, BlogManifest, BlogService } from './blog.service';
 
@@ -8,6 +9,7 @@ import { Blog, BlogManifest, BlogService } from './blog.service';
   styleUrls: ['./blog.component.scss']
 })
 export class BlogComponent implements OnInit {
+  @ViewChild(CdkVirtualScrollViewport) viewport!: CdkVirtualScrollViewport;
   blogs$: Observable<Blog[]>;
   blogManifest$: BehaviorSubject<BlogManifest | null>;
 
@@ -44,6 +46,14 @@ export class BlogComponent implements OnInit {
       this.blogService.fetchManifest(prev).pipe(first()).subscribe({
         next: manifest => this.blogManifest$.next(manifest)
       });
+    }
+  }
+
+  onScroll(): void {
+    const end = this.viewport.getRenderedRange().end;
+    const total = this.viewport.getDataLength();
+    if (end === total) {
+      this.nextManifest();
     }
   }
 }
