@@ -1,27 +1,30 @@
-<mat-nav-list class="layout">
-  <!--TODO loading state-->
-  <ng-container *ngIf="blogs$ | async as blogs;">
-    <section mat-list-item *ngFor="let blog of blogs" class="section" routerLink="/blog/post/{{blog.fileName}}">
-      <div class="column">
-        <img src="/assets/img/{{blog.image}}" class="img" />
-      </div>
-      <div class="column">
-        <h1>{{blog.title}}</h1>
-        <p class="excerpt">Consequat clita sadipscing invidunt sit tempor autem ipsum ut accusam autem in sit amet
-          accusam
-          eirmod. Elitr
-          duis
-          dolore iriure elit aliquyam et sea eirmod dolores sea sit odio stet consetetur sed molestie ipsum. Tincidunt
-          nonumy
-          et sea labore amet sit no dolore sanctus ea sadipscing iriure stet. Tempor tempor ut augue et dolore stet no.
-          Sea
-          diam takimata amet no. Stet nulla elitr dolor consectetuer. Voluptua facilisi amet sadipscing ut. Consetetur
-          lorem
-          dolores eos ipsum consectetuer et in facilisi mazim consequat dolore dolore veniam no justo minim consetetur
-          mazim.
-          Lorem illum dolor ut labore sit amet dolore te enim stet ut qui duis justo ut. Diam sadipscing sadipscing.</p>
-        <time>{{blog.date.toLocaleDateString()}}</time>
-      </div>
-    </section>
-  </ng-container>
-</mat-nav-list>
+<cdk-virtual-scroll-viewport itemSize="10" class="viewport" autosize>
+  <mat-nav-list class="layout">
+    <ng-container *cdkVirtualFor="let blog of blogs$ | async">
+      <section mat-list-item class="section" routerLink="/blog/post/{{blog.fileName}}">
+        <div class="column">
+          <img src="/assets/img/{{blog.image}}" class="img" />
+        </div>
+        <div class="column">
+          <h1>{{blog.title}}</h1>
+          <p class="excerpt">Consequat clita sadipscing invidunt sit tempor autem ipsum ut accusam autem in sit amet
+            accusam
+            eirmod. Elitr
+            duis
+            dolore iriure elit aliquyam et sea eirmod dolores sea sit odio stet consetetur sed molestie ipsum. Tincidunt
+            nonumy
+            et sea labore amet sit no dolore sanctus ea sadipscing iriure stet. Tempor tempor ut augue et dolore stet
+            no.
+            Sea
+            diam takimata amet no. Stet nulla elitr dolor consectetuer. Voluptua facilisi amet sadipscing ut. Consetetur
+            lorem
+            dolores eos ipsum consectetuer et in facilisi mazim consequat dolore dolore veniam no justo minim consetetur
+            mazim.
+            Lorem illum dolor ut labore sit amet dolore te enim stet ut qui duis justo ut. Diam sadipscing sadipscing.
+          </p>
+          <time>{{blog.date.toLocaleDateString()}}</time>
+        </div>
+      </section>
+    </ng-container>
+  </mat-nav-list>
+</cdk-virtual-scroll-viewport>

@@ -1,0 +1,35 @@
+{
+  "posts": [
+    {
+      "file": "click-here"
+    },
+    {
+      "file": "something"
+    },
+    {
+      "file": "click-here"
+    },
+    {
+      "file": "something"
+    },
+    {
+      "file": "click-here"
+    },
+    {
+      "file": "something"
+    },
+    {
+      "file": "click-here"
+    },
+    {
+      "file": "something"
+    },
+    {
+      "file": "click-here"
+    },
+    {
+      "file": "something"
+    }
+  ],
+  "continuation": "blog-manifest-1"
+}

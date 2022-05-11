@@ -5,6 +5,7 @@ import { VFile } from 'vfile';
 import { MarkdownService } from '../markdown/markdown.service';
 
 const getBlogUrl = (title: string) => `/assets/blog/post/${title}.md`;
+const getBlogManifestUrl = (manifest: string = "blog-manifest") => `/assets/blog/${manifest}.json`;
 
 declare module 'vfile' {
   interface VFileDataMap {
@@ -24,6 +25,11 @@ export interface Blog {
   image: string;
 }
 
+export interface BlogManifest {
+  posts: { file: string }[];
+  continuation?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,6 +44,11 @@ export class BlogService {
         mergeMap(markdown => defer(() => from(this.markdownService.transformMarkdown(markdown)))),
         map(file => this.parseBlogMetadata(file, fileName))
       );
+  }
+
+  fetchManifest(previous?: BlogManifest): Observable<BlogManifest> {
+    return this.httpClient
+      .get<BlogManifest>(getBlogManifestUrl(previous?.continuation));
   }
 
   private parseBlogMetadata(file: VFile, fileName: string): Blog {
