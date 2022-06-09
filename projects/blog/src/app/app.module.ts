@@ -11,6 +11,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalErrorHandler } from './global-error-handler';
 import { GlobalHttpInterceptor } from './global-http-interceptor';
+import { TitleStrategy } from '@angular/router';
+import { GlobalTitleStrategy } from './global-title-strategy';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { GlobalHttpInterceptor } from './global-http-interceptor';
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptor, multi: true },
+    { provide: TitleStrategy, useClass: GlobalTitleStrategy }
   ],
   bootstrap: [AppComponent]
 })
