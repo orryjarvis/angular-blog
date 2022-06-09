@@ -86,18 +86,19 @@ async function generate() {
 
   console.log('Deleting previous manifests...');
   const oldManifests = (await fs.readdir(blogRoot)).filter(file => file != blogPostDir).map(file => path.join(blogRoot, file));
-  oldManifests.forEach(file => {
-    fs.unlink(file);
-  })
+  await Promise.all(oldManifests.map(file => {
+    return fs.unlink(file);
+  }));
 
   console.log('Writing manifests...');
   const getBlogManifestNameByIndex = (i: number) => `blog-manifest-${i}.json`;
-  manifests.forEach((manifest, index) => {
+  await Promise.all(manifests.map((manifest, index) => {
     if (index < manifests.length - 1) {
       manifest.continuation = getBlogManifestNameByIndex(index + 1).replace('.json', '');
     }
-    fs.writeFile(path.join(blogRoot, getBlogManifestNameByIndex(index)), JSON.stringify(manifest));
-  });
+    return fs.writeFile(path.join(blogRoot, getBlogManifestNameByIndex(index)), JSON.stringify(manifest));
+  }));
+  console.log('Done.')
 }
 
 generate()
