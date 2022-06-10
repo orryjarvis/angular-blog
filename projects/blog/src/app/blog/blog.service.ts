@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { defer, from, map, mergeMap, Observable, first, BehaviorSubject, filter, combineLatest, scan, Subscription } from 'rxjs';
+import { defer, from, map, mergeMap, Observable, first, BehaviorSubject, filter, combineLatest, scan, Subscription, partition, merge, take } from 'rxjs';
 import { VFile } from 'vfile';
+import { Map } from 'immutable';
 import { MarkdownService } from '../markdown/markdown.service';
 import { isNonNull } from '../utils';
 
@@ -26,7 +27,7 @@ export interface Blog {
   image: string;
 }
 
-export interface BlogManifest {
+interface BlogManifest {
   posts: { file: string }[];
   continuation?: string;
 }
@@ -37,42 +38,52 @@ export interface BlogManifest {
 export class BlogService implements OnDestroy {
 
   private blogManifestSubject$: BehaviorSubject<BlogManifest | null>;
-  blogManifest$: Observable<BlogManifest>;
-  private blogsSubject$: BehaviorSubject<Blog[]>;
-  blogs$: Observable<Blog[]>;
-  blogMap: Map<string, Blog>;
-  private blogMapSubscription: Subscription;
+  private blogManifest$: Observable<BlogManifest>;
+  private blogList$: BehaviorSubject<Blog[]>;
+  private blogCache$: BehaviorSubject<Map<string, Blog>>;
+  // private blogAdHoc$: BehaviorSubject<Blog[]>;
   private blogsSubscription: Subscription;
+
 
   constructor(private httpClient: HttpClient, private markdownService: MarkdownService) {
     this.blogManifestSubject$ = new BehaviorSubject<BlogManifest | null>(null);
     this.blogManifest$ = this.blogManifestSubject$.pipe(filter(isNonNull));
-    this.blogsSubject$ = new BehaviorSubject<Blog[]>([]);
+    this.blogList$ = new BehaviorSubject<Blog[]>([]);
+    this.blogCache$ = new BehaviorSubject<Map<string, Blog>>(Map());
+    // this.blogAdHoc$ = new BehaviorSubject<Blog[]>([]);
+
     this.blogsSubscription = this.blogManifest$
       .pipe(
         mergeMap(manifest => combineLatest(manifest.posts.map(post => this.fetch(post.file)))),
         scan((acc, value) => [...acc, ...value])
-      ).subscribe(blogs => this.blogsSubject$.next(blogs));
-    this.blogs$ = this.blogsSubject$.asObservable();
-    this.blogMap = new Map();
-    this.blogMapSubscription = this.blogs$.subscribe(blogs => {
-      this.blogMap = new Map(blogs.map(blog => [blog.fileName, blog]));
-    });
+      ).subscribe(blogs => {
+        this.blogList$.next(blogs);
+        this.blogCache$.next(Map(blogs.map(blog => [blog.fileName, blog])));
+      });
+
+    // merge(
+    //   this.blogManifest$.pipe(mergeMap(manifest => combineLatest(manifest.posts.map(post => this.fetch(post.file))))),
+    //   this.blogAdHoc$)
+    //   .pipe(
+    //     scan<Blog[], Map<string, Blog>>(
+    //       (acc, value) => acc.merge(Map(value.map(blog => [blog.fileName, blog]))),
+    //       Map<string, Blog>()
+    //     )
+    //   );
   }
 
   ngOnDestroy(): void {
-    this.blogMapSubscription.unsubscribe();
     this.blogsSubscription.unsubscribe();
   }
 
-  initializeManifest(): void {
+  private initializeManifest(): void {
     const prev = this.blogManifestSubject$.value;
     if (!prev) {
-      this.nextManifest();
+      this.nextPage();
     }
   }
 
-  nextManifest(): void {
+  nextPage(): void {
     const prev = this.blogManifestSubject$.value;
     if (!prev) {
       this.fetchManifest().pipe(first()).subscribe({
@@ -86,6 +97,19 @@ export class BlogService implements OnDestroy {
         next: manifest => this.blogManifestSubject$.next(manifest)
       });
     }
+  }
+
+  getBlogs(): Observable<Blog[]> {
+    this.initializeManifest();
+    return this.blogList$;
+  }
+
+  getBlog(fileName: string): Observable<Blog> {
+    const [blog, empty] = partition(this.blogCache$.pipe(map(map => map.get(fileName)), take(1)), isNonNull);
+    const fetched = empty.pipe(mergeMap(() => this.fetch(fileName)));
+    const merged = merge(blog, fetched).pipe(take(1));
+    // merged.subscribe(blog => this.blogAdHoc$.next([blog]));
+    return merged;
   }
 
   private fetch(fileName: string): Observable<Blog> {

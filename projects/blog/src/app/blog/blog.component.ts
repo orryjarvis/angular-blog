@@ -19,7 +19,7 @@ export class BlogComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.blogs$ = this.blogService.blogs$;
+    this.blogs$ = this.blogService.getBlogs();
   }
 
   ngOnDestroy(): void {
@@ -31,14 +31,10 @@ export class BlogComponent implements AfterViewInit, OnDestroy, OnInit {
       next: (i) => {
         const end = this.viewport.getRenderedRange().end;
         const total = this.viewport.getDataLength();
-        if (end === total) {
-          this.nextManifest();
+        if (end === total && end !== 0) {
+          this.blogService.nextPage();
         }
       }
     });
-  }
-
-  nextManifest(): void {
-    this.blogService.nextManifest();
   }
 }
