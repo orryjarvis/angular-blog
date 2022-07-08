@@ -14,10 +14,12 @@ import { GlobalErrorHandler } from './global-error-handler';
 import { GlobalHttpInterceptor } from './global-http-interceptor';
 import { TitleStrategy } from '@angular/router';
 import { GlobalTitleStrategy } from './global-title-strategy';
+import { StatusComponent } from './status/status.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    StatusComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

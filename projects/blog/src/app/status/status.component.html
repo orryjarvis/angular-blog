@@ -1,0 +1,9 @@
+<ng-container *ngIf="status$ | async as status; else loading">
+  <mat-progress-bar *ngIf="status.type === 'progress'" mode="determinate" color="warn" [value]="status.value">
+  </mat-progress-bar>
+  <mat-progress-bar *ngIf="status.type === 'query'" mode="query" color="warn"></mat-progress-bar>
+  <mat-progress-bar *ngIf="status.type === 'idle'" mode="determinate" color="warn" [value]="100"></mat-progress-bar>
+</ng-container>
+<ng-template #loading>
+  <mat-progress-bar mode="buffer" color="warn"></mat-progress-bar>
+</ng-template>
