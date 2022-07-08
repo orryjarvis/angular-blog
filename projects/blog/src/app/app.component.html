@@ -1,4 +1,4 @@
-<header>
+<header class="sticky-header">
   <mat-toolbar color="primary" role="toolbar" attr.aria-labelledby="toolbar-header">
     <mat-toolbar-row class="centered-row">
       <h1 id="toolbar-header">{{title}}</h1>
@@ -13,6 +13,7 @@
       </mat-slide-toggle>
     </mat-toolbar-row>
   </mat-toolbar>
+  <mat-progress-bar mode="determinate" color="warn" [value]="scrollProgress$ | async"></mat-progress-bar>
 </header>
 
 <main>

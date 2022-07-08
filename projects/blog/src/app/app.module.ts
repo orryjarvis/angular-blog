@@ -8,6 +8,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalErrorHandler } from './global-error-handler';
 import { GlobalHttpInterceptor } from './global-http-interceptor';
@@ -26,7 +27,8 @@ import { GlobalTitleStrategy } from './global-title-strategy';
     MatSnackBarModule,
     MatToolbarModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatProgressBarModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
