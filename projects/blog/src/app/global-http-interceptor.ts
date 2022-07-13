@@ -3,26 +3,18 @@ import {
   HttpEvent, HttpRequest, HttpHandler,
   HttpInterceptor
 } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { StatusService } from './status/status.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GlobalHttpInterceptor implements HttpInterceptor {
-  private queriesInProgress$: BehaviorSubject<number>;
 
-  constructor() {
-    this.queriesInProgress$ = new BehaviorSubject<number>(0);
-  }
+  constructor(private statusService: StatusService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.queriesInProgress$.next(this.queriesInProgress$.value + 1);
+    this.statusService.incrementQueryCount();
     const response = next.handle(request);
-    this.queriesInProgress$.next(this.queriesInProgress$.value - 1);
+    this.statusService.decrementQueryCount();
     return response;
-  }
-
-  observeQueriesInProgress(): Observable<number> {
-    return this.queriesInProgress$;
   }
 }

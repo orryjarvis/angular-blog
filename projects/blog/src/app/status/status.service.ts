@@ -1,6 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, fromEvent, map, Observable, Subscription, tap } from 'rxjs';
-import { GlobalHttpInterceptor } from '../global-http-interceptor';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
+import { Injectable, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, combineLatest, filter, fromEvent, map, Observable, Subscription, tap } from 'rxjs';
 
 export type Status = Progress | Query | Idle;
 
@@ -21,16 +21,17 @@ export interface Idle {
   providedIn: 'root'
 })
 export class StatusService implements OnDestroy {
-  private scrollProgress$: BehaviorSubject<number>;
-  private scrollProgressSubscription: Subscription;
+  private scrollProgress$ = new BehaviorSubject<number>(0);
+  private scrollProgressSubscription?: Subscription;
 
-  private status$: BehaviorSubject<Status>;
-  private statusSubscription: Subscription;
+  private status$ = new BehaviorSubject<Status>({ type: 'idle' });
+  private statusSubscription?: Subscription;
 
-  constructor(private httpInterceptor: GlobalHttpInterceptor) {
-    this.scrollProgress$ = new BehaviorSubject<number>(0);
+  private queryCount$ = new BehaviorSubject<number>(0);
 
-    this.scrollProgressSubscription = fromEvent(window, "scroll").pipe(
+  constructor(private scrollDispatcher: ScrollDispatcher, private zone: NgZone) {
+
+    this.scrollProgressSubscription = this.scrollDispatcher.scrolled(25).pipe(
       map(() => {
         const winScroll =
           document.body.scrollTop || document.documentElement.scrollTop;
@@ -38,26 +39,34 @@ export class StatusService implements OnDestroy {
           document.documentElement.scrollHeight -
           document.documentElement.clientHeight;
         return Math.round((winScroll / height) * 100);
-      })).subscribe(this.scrollProgress$);
+      }),
+      filter(n => !isNaN(n))).subscribe(p => this.zone.run(() => this.scrollProgress$.next(p)));
 
-    this.status$ = new BehaviorSubject<Status>({ type: 'idle' });
-
-    this.statusSubscription = combineLatest([this.scrollProgress$, this.httpInterceptor.observeQueriesInProgress()], (scrollProgress, queriesInProgress) => {
+    this.statusSubscription = combineLatest([this.scrollProgress$, this.queryCount$.asObservable()], (scrollProgress, queriesInProgress) => {
       if (queriesInProgress > 0) {
         return { type: 'query' } as Status;
       }
-      return { type: 'progress', value: scrollProgress } as Status;
-    }).subscribe(this.status$);
+      else if (scrollProgress > 0) {
+        return { type: 'progress', value: scrollProgress } as Status;
+      }
+      return { type: 'idle' } as Status;
+    }).subscribe(s => this.zone.run(() => this.status$.next(s)));
   }
 
   ngOnDestroy(): void {
-    this.scrollProgressSubscription.unsubscribe();
-    this.statusSubscription.unsubscribe();
+    this.scrollProgressSubscription?.unsubscribe();
+    this.statusSubscription?.unsubscribe();
+  }
+
+  incrementQueryCount(): void {
+    this.queryCount$.next(this.queryCount$.value + 1);
+  }
+
+  decrementQueryCount(): void {
+    this.queryCount$.next(this.queryCount$.value - 1);
   }
 
   observeStatus(): Observable<Status> {
-    return this.status$.pipe(tap(status => {
-      console.log(status);
-    }));
+    return this.status$.asObservable();
   }
 }

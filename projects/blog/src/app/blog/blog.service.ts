@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { defer, from, map, mergeMap, Observable, first, BehaviorSubject, filter, combineLatest, scan, Subscription, partition, merge, take } from 'rxjs';
+import { defer, from, map, mergeMap, Observable, first, BehaviorSubject, filter, combineLatest, scan, Subscription, partition, merge, take, forkJoin } from 'rxjs';
 import { VFile } from 'vfile';
 import { Map } from 'immutable';
 import { MarkdownService } from '../markdown/markdown.service';
@@ -43,6 +43,7 @@ export class BlogService implements OnDestroy {
   private blogCache$: BehaviorSubject<Map<string, Blog>>;
   // private blogAdHoc$: BehaviorSubject<Blog[]>;
   private blogsSubscription: Subscription;
+  private fetchInProgress: boolean = false;
 
 
   constructor(private httpClient: HttpClient, private markdownService: MarkdownService) {
@@ -54,11 +55,12 @@ export class BlogService implements OnDestroy {
 
     this.blogsSubscription = this.blogManifest$
       .pipe(
-        mergeMap(manifest => combineLatest(manifest.posts.map(post => this.fetch(post.file)))),
+        mergeMap(manifest => forkJoin(manifest.posts.map(post => this.fetch(post.file).pipe(first())))),
         scan((acc, value) => [...acc, ...value])
       ).subscribe(blogs => {
         this.blogList$.next(blogs);
         this.blogCache$.next(Map(blogs.map(blog => [blog.fileName, blog])));
+        this.fetchInProgress = false;
       });
 
     // merge(
@@ -84,8 +86,13 @@ export class BlogService implements OnDestroy {
   }
 
   nextPage(): void {
+    if (this.fetchInProgress) {
+      return;
+    }
+
     const prev = this.blogManifestSubject$.value;
     if (!prev) {
+      this.fetchInProgress = true;
       this.fetchManifest().pipe(first()).subscribe({
         next: manifest => this.blogManifestSubject$.next(manifest)
       });
@@ -93,6 +100,7 @@ export class BlogService implements OnDestroy {
       this.blogManifestSubject$.complete();
     }
     else {
+      this.fetchInProgress = true;
       this.fetchManifest(prev).pipe(first()).subscribe({
         next: manifest => this.blogManifestSubject$.next(manifest)
       });
