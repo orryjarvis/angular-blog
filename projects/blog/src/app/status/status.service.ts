@@ -1,6 +1,6 @@
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
-import { BehaviorSubject, combineLatest, delayWhen, interval, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, Subscription } from 'rxjs';
 
 export type Status = Progress | Query | Idle;
 
@@ -44,7 +44,7 @@ export class StatusService implements OnDestroy {
 
     this.statusSubscription = combineLatest([
       this.scrollProgress$,
-      this.queryCount$.asObservable().pipe(delayWhen(q => interval(q === 0 ? 750 : 0)))
+      this.queryCount$.asObservable()
     ], (scrollProgress, queriesInProgress) => {
       if (queriesInProgress > 0) {
         return { type: 'query' } as Status;
