@@ -1,6 +1,6 @@
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
-import { Injectable, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, filter, fromEvent, map, Observable, Subscription, tap } from 'rxjs';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { BehaviorSubject, combineLatest, delayWhen, interval, map, Observable, Subscription } from 'rxjs';
 
 export type Status = Progress | Query | Idle;
 
@@ -38,11 +38,14 @@ export class StatusService implements OnDestroy {
         const height =
           document.documentElement.scrollHeight -
           document.documentElement.clientHeight;
-        return Math.round((winScroll / height) * 100);
-      }),
-      filter(n => !isNaN(n))).subscribe(p => this.zone.run(() => this.scrollProgress$.next(p)));
+        const percent = Math.round((winScroll / height) * 100);
+        return isNaN(percent) ? 0 : percent;
+      })).subscribe(p => this.zone.run(() => this.scrollProgress$.next(p)));
 
-    this.statusSubscription = combineLatest([this.scrollProgress$, this.queryCount$.asObservable()], (scrollProgress, queriesInProgress) => {
+    this.statusSubscription = combineLatest([
+      this.scrollProgress$,
+      this.queryCount$.asObservable().pipe(delayWhen(q => interval(q === 0 ? 750 : 0)))
+    ], (scrollProgress, queriesInProgress) => {
       if (queriesInProgress > 0) {
         return { type: 'query' } as Status;
       }

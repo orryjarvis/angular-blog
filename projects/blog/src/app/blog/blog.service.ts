@@ -63,6 +63,8 @@ export class BlogService implements OnDestroy {
         this.fetchInProgress = false;
       });
 
+    // TODO merge adhoc queries into the map
+
     // merge(
     //   this.blogManifest$.pipe(mergeMap(manifest => combineLatest(manifest.posts.map(post => this.fetch(post.file))))),
     //   this.blogAdHoc$)
