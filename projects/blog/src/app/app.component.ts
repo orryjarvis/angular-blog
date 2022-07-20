@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { environment } from '../environments/environment';
+import { LayoutService } from './layout/layout.service';
 import { ThemeService } from './theme/theme.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
   isDarkMode = true;
   slideToggleLabel = "🌙";
 
-  constructor(private themeService: ThemeService) { }
+  constructor(private themeService: ThemeService, private layoutService: LayoutService) { }
 
   ngOnInit(): void {
     this.isDarkMode = this.themeService.isDarkMode();
